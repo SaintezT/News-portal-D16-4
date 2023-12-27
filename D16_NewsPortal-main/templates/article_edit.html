@@ -1,0 +1,22 @@
+
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+{% if 'create' in request.path %}
+    <h1>Создать статью</h1>
+{% elif 'edit' in request.path %}
+    <h1> Изменить статью</h1>
+{% endif %}
+<hr>
+{% if is_not_author %}
+    <button> <a href="/accounts/upgrade/">Стать автором</a></button>
+{% elif no_more_posts %}
+    <h2>Можно создавать не более 3-х постов в день. Возвращайтесь завтра.</h2>
+{% else %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save"/>
+    </form>
+{% endif %}
+{% endblock content %}
